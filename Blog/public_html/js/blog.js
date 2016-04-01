@@ -30,5 +30,5 @@ function Posts(args) {
     args = args || {};
     this.title = args.title || "";
     this.content = args.content || "";
-    this.authorEmail = args.Email || "";
+    this.authorEmail = args.authorEmail || "";
 }

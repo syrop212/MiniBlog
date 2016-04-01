@@ -19,20 +19,33 @@ $(function () {
            
         Backendless.UserService.login(email, password, true, new Backendless.Async(userLoggedIn, gotError));
    });
+   
+   $(document).on('click', '.add-blog', function() {
+       var addBlogScript =$("#add-blog-template").html();
+       var addBlogTemplate = Handlebars.compile(addBlogScript);
+       
+       $(".main-container").html(addBlogTemplate);
+   });
 }); 
 
 function Posts(args) {
     args = args || {};
     this.title = args.title || "";
     this.content = args.content || "";
-    this.authorEmail = args.Email || "";
+    this.authorEmail = args.authorEmail || "";
 }
 
-function userLoggedIn() {
+function userLoggedIn(user) {
     console.log("user successfully logged in");
+    
+    var welcomeScript = $('#welcome-template').html();
+    var welcomeTemplate = Handlebars.compile(welcomeScript);
+    var welcomeHTML = welcomeTemplate(user);
+    
+    $(".main-container").html(welcomeHTML);
 }
 
 function gotError(error) {
     console.log("Error message - " + error.message);
-    console.log("Error code - " + error,code);
+    console.log("Error code - " + error.code);
 }

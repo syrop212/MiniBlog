@@ -4,13 +4,15 @@ $(function () {
        VERSION = "v1";
        
    Backendless.initApp(APPLICATION_ID, SECRET_KEY, VERSION);
+   if(Backendless.UserService.isValidLogin()){
+       userLoggedIn(Backendless.LocalCache.get("current-uiser-id"));
+   } else {
+        var loginScript =$("#login-template").html();
+        var loginTemplate = Handlebars.compile(loginScript);
+        $('.main-container').html(loginTemplate);
+   }
    
-   var loginScript =$("#login-template").html();
-   var loginTemplate = Handlebars.compile(loginScript);
-   
-   $(".main-container").html(loginTemplate);
-   
-   $(document).on('submit', 'form-signin', function(event){
+   $(document).on('submit', '.form-signin', function(event){
        event.preventDefault();
        
        var data = $(this).serializeArray(),
@@ -24,7 +26,7 @@ $(function () {
        var addBlogScript =$("#add-blog-template").html();
        var addBlogTemplate = Handlebars.compile(addBlogScript);
        
-       $(".main-container").html(addBlogTemplate);
+       $('.main-container').html(addBlogTemplate);
    });
    $(document).on('submit', '.form-add-blog', function (event) {
         event.preventDefault();
@@ -56,13 +58,18 @@ function Posts(args) {
 }
 
 function userLoggedIn(user) {
-    console.log("user successfully logged in");
-    
+    console.log('user successfully logged in');
+    var userData;
+    if (typeof user == "string") {
+        userData = Backendless.Data.of(Backendless.User).findById(user);
+    } else{
+        userData = user;
+    }
     var welcomeScript = $('#welcome-template').html();
     var welcomeTemplate = Handlebars.compile(welcomeScript);
-    var welcomeHTML = welcomeTemplate(user);
+    var welcomeHTML = welcomeTemplate(userData);
     
-    $(".main-container").html(welcomeHTML);
+    $('.main-container').html(welcomeHTML);
 }
 
 function gotError(error) {

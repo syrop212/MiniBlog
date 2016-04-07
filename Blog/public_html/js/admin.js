@@ -79,7 +79,7 @@ function userLoggedIn(user) {
     
     $('.main-container').html(welcomeHTML);
 }
-function userLoggedOut(){
+function userLoggedOut() {
     console.log("successfully log out");
 }
 

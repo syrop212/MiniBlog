@@ -4,6 +4,9 @@ $(function () {
        VERSION = "v1";
        
    Backendless.initApp(APPLICATION_ID, SECRET_KEY, VERSION);
+   
+   /*Backendless.UserService.logout();*/
+   
    if(Backendless.UserService.isValidLogin()){
        userLoggedIn(Backendless.LocalCache.get("current-user-id"));
    } else {
@@ -68,7 +71,7 @@ function Posts(args) {
 function userLoggedIn(user) {
     console.log('user successfully logged in');
     var userData;
-    if (typeof user == "string") {
+    if (typeof user === "string") {
         userData = Backendless.Data.of(Backendless.User).findById(user);
     } else{
         userData = user;
@@ -81,9 +84,11 @@ function userLoggedIn(user) {
 }
 function userLoggedOut() {
     console.log("successfully log out");
+    
 }
 
 function gotError(error) {
     console.log("Error message - " + error.message);
     console.log("Error code - " + error.code);
+    Materialize.toast('Invalid Passord or Email', 4000);
 }

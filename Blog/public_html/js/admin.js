@@ -5,7 +5,7 @@ $(function () {
        
    Backendless.initApp(APPLICATION_ID, SECRET_KEY, VERSION);
    
-   /*Backendless.UserService.logout();*/
+   //Backendless.UserService.logout();
    
    if(Backendless.UserService.isValidLogin()){
        userLoggedIn(Backendless.LocalCache.get("current-user-id"));
